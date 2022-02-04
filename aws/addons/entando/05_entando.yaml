@@ -1,0 +1,70 @@
+---
+####Deploy Entando####
+# Source: entando-helm-quickstart/templates/entando-app.yaml
+apiVersion: "entando.org/v1"
+kind: "EntandoApp"
+metadata:
+  name: "entando"
+  namespace: entando
+  annotations:
+    entando.org/processing-instruction: defer
+spec:
+  dbms: embedded
+  ingressHostName: entando-demo.lab.kubermatic.io
+  replicas: 1
+  standardServerImage: wildfly
+  ingressPath: /entando-de-app
+---
+# Source: entando-helm-quickstart/templates/entando-cluster-infrastructure.yaml
+apiVersion: "entando.org/v1"
+kind: "EntandoClusterInfrastructure"
+metadata:
+  name: "entando-eci"
+  namespace: entando
+  annotations:
+    entando.org/processing-instruction: defer
+spec:
+  ingressHostName: entando-demo.lab.kubermatic.io
+  replicas: 1
+  isDefault: true
+---
+# Source: entando-helm-quickstart/templates/entando-composite-app.yaml
+kind: "EntandoCompositeApp"
+apiVersion: "entando.org/v1"
+metadata:
+  name: "entando-composite-app"
+  namespace: entando
+spec:
+  components:
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "keycloak-server"
+      spec:
+        targetKind: "EntandoKeycloakServer"
+        targetName: "entando-kc"
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "entando-eci"
+      spec:
+        targetKind: "EntandoClusterInfrastructure"
+        targetName: "entando-eci"
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "app"
+      spec:
+        targetKind: "EntandoApp"
+        targetName: "entando"
+---
+# Source: entando-helm-quickstart/templates/entando-keycloak-server.yaml
+kind: "EntandoKeycloakServer"
+apiVersion: "entando.org/v1"
+metadata:
+  name: "entando-kc"
+  namespace: entando
+  annotations:
+    entando.org/processing-instruction: defer
+spec:
+  dbms: embedded
+  ingressHostName: entando-demo.lab.kubermatic.io
+  isDefault: true
+  replicas: 1

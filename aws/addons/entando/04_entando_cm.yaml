@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: entando-operator-config
+  namespace: entando
+data:
+# For slow environments with low bandwidth, you can given the various pods more time to get to ready state and/or completion state by
+# increasing the values for the following two properties
+  entando.pod.completion.timeout.seconds: "1200"
+  entando.pod.readiness.timeout.seconds: "1200"
+# if you want to specify a global routing suffix, set the value of the 'entando.default.routing.suffix' property to a
+# domain suffix that will resolve to your cluster host. For Entando custom resource that do not specify an ingress
+# hostname, the hostnames for deployments will be calculated by prefixing the name and namespace of the resource to this
+# routing suffix.
+#
+# entando.default.routing.suffix: domain_suffix
+  entando.requires.filesystem.group.override: "true"
+  entando.ingress.class: "nginx"
+# if you want to inspect the Entando deployer pods even after deployment has completed successfully, you can turn of
+# the deployer pod garbage collection by setting the property 'entando.k8s.operator.gc.controller.pods' to "false"
+#
+  entando.k8s.operator.gc.controller.pods: "true"

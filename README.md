@@ -12,6 +12,7 @@ eval `ssh-agent`
 ssh-add /path/to/.ssh/id_rsa
 make k1-tf-apply PROVIDER=aws
 ```
+> Update the terraform.tfvars for keys and k8s configuration changes
 
 ## Create k8s cluster using kubeone along with Entando deployment as addon.
 ```

@@ -10,7 +10,7 @@ metadata:
     entando.org/processing-instruction: defer
 spec:
   dbms: embedded
-  ingressHostName: entando-demo.lab.kubermatic.io
+  ingressHostName: TODO_DNS
   replicas: 1
   standardServerImage: wildfly
   ingressPath: /entando-de-app
@@ -24,7 +24,7 @@ metadata:
   annotations:
     entando.org/processing-instruction: defer
 spec:
-  ingressHostName: entando-demo.lab.kubermatic.io
+  ingressHostName: TODO_DNS
   replicas: 1
   isDefault: true
 ---
@@ -65,6 +65,6 @@ metadata:
     entando.org/processing-instruction: defer
 spec:
   dbms: embedded
-  ingressHostName: entando-demo.lab.kubermatic.io
+  ingressHostName: TODO_DNS
   isDefault: true
   replicas: 1
